@@ -27,7 +27,7 @@ DEFAULT_CONFIG = {
     "notify_on_startup": False,  # 앱 시작 시 이미 방송 중이어도 알림을 보낼지
     "use_windows_toast": False,  # True면 Windows 토스트, False면 자체 팝업(스팀 스타일)
     "popup_duration_sec": 8,     # 자체 팝업이 떠 있는 시간
-    "sound_mode": "default",     # default(기본 알림음) | none(무음) | file(WAV 파일)
+    "sound_mode": "default",     # default(내장 notify.wav) | none(무음) | file(WAV 파일)
     "sound_file": "",            # sound_mode가 file일 때 재생할 .wav 경로
     "channels": [],
 }
@@ -569,6 +569,11 @@ class App:
                     and Path(self.config["sound_file"]).exists():
                 winsound.PlaySound(
                     self.config["sound_file"],
+                    winsound.SND_FILENAME | winsound.SND_ASYNC,
+                )
+            elif (RES_DIR / "notify.wav").exists():  # 기본음 = 내장 알림음
+                winsound.PlaySound(
+                    str(RES_DIR / "notify.wav"),
                     winsound.SND_FILENAME | winsound.SND_ASYNC,
                 )
             else:

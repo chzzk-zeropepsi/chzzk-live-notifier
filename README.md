@@ -31,14 +31,14 @@ pip install -r requirements.txt
 ## 설정 (config.json — 자동 생성)
 
 새로고침 주기, 팝업 유지시간, 알림 소리는 창 하단 "설정" 패널에서 바로 변경 가능.
-알림 소리는 기본 알림음 / 무음 / 원하는 WAV 파일 중 선택 (winsound 특성상 .wav만 지원 —
+알림 소리는 기본 알림음(내장 notify.wav) / 무음 / 원하는 WAV 파일 중 선택 (winsound 특성상 .wav만 지원 —
 mp3는 [온라인 변환기](https://cloudconvert.com/mp3-to-wav) 등으로 변환해서 사용).
 
 - `poll_interval_sec`: 확인 주기 (기본 30초, 10~600초)
 - `notify_on_startup`: 프로그램 시작 시 이미 방송 중인 채널도 알림 (기본 false)
 - `use_windows_toast`: true면 Windows 토스트, false면 자체 팝업 (기본 false)
 - `popup_duration_sec`: 자체 팝업 표시 시간 (기본 8초, 2~60초)
-- `sound_mode`: default(기본 알림음) / none(무음) / file(WAV 파일)
+- `sound_mode`: default(내장 notify.wav) / none(무음) / file(WAV 파일)
 - `sound_file`: sound_mode가 file일 때 재생할 .wav 경로
 - `channels`: 알림 받을 채널 목록 (GUI에서 관리)
 
