@@ -51,6 +51,46 @@ def save_config(cfg: dict) -> None:
     )
 
 
+# ---------------------------------------------------------------- 시작 프로그램 등록
+
+RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
+RUN_NAME = "ChzzkLiveNotifier"
+
+
+def startup_command() -> str:
+    """부팅 시 실행할 명령. exe면 exe 자체, 스크립트면 pythonw + app.py."""
+    if getattr(sys, "frozen", False):
+        return f'"{sys.executable}"'
+    exe = Path(sys.executable)
+    pyw = exe.with_name("pythonw.exe")
+    runner = pyw if pyw.exists() else exe
+    return f'"{runner}" "{BASE_DIR / "app.py"}"'
+
+
+def is_startup_enabled() -> bool:
+    import winreg
+    try:
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, RUN_KEY) as key:
+            winreg.QueryValueEx(key, RUN_NAME)
+        return True
+    except OSError:
+        return False
+
+
+def set_startup(enabled: bool) -> None:
+    import winreg
+    with winreg.OpenKey(
+        winreg.HKEY_CURRENT_USER, RUN_KEY, 0, winreg.KEY_SET_VALUE
+    ) as key:
+        if enabled:
+            winreg.SetValueEx(key, RUN_NAME, 0, winreg.REG_SZ, startup_command())
+        else:
+            try:
+                winreg.DeleteValue(key, RUN_NAME)
+            except OSError:
+                pass
+
+
 # ---------------------------------------------------------------- toast icon
 
 def cache_channel_icon(channel_id: str, image_url: str) -> str | None:
@@ -348,6 +388,9 @@ class App:
         sp2 = ttk.Spinbox(row1, from_=2, to=60, width=4,
                           textvariable=self.dur_var, command=self.save_settings)
         sp2.pack(side="left", padx=4)
+        self.autostart_var = tk.BooleanVar(value=is_startup_enabled())
+        ttk.Checkbutton(row1, text="부팅 시 자동 실행", variable=self.autostart_var,
+                        command=self.toggle_autostart).pack(side="right")
         for sp in (sp1, sp2):
             sp.bind("<FocusOut>", lambda e: self.save_settings())
             sp.bind("<Return>", lambda e: self.save_settings())
@@ -530,6 +573,16 @@ class App:
             f'설정 저장됨 — 주기 {self.config["poll_interval_sec"]}초, '
             f'팝업 {self.config["popup_duration_sec"]}초'
         )
+
+    def toggle_autostart(self):
+        try:
+            set_startup(self.autostart_var.get())
+            self.status_var.set(
+                "부팅 시 자동 실행: " + ("켬" if self.autostart_var.get() else "끔")
+            )
+        except Exception as e:
+            self.autostart_var.set(is_startup_enabled())  # 실패 시 실제 상태로 복원
+            messagebox.showerror(APP_NAME, f"시작 프로그램 등록 실패: {e}")
 
     def sound_mode_label(self) -> str:
         return {"none": "무음", "file": "WAV 파일"}.get(
