@@ -34,7 +34,7 @@ public partial class App : Application
         // 디스코드 블러플 액센트 (Primary 버튼/토글 색상)
         Wpf.Ui.Appearance.ApplicationAccentColorManager.Apply(
             System.Windows.Media.Color.FromRgb(0x58, 0x65, 0xF2),
-            Wpf.Ui.Appearance.ApplicationTheme.Dark);
+            Wpf.Ui.Appearance.ApplicationTheme.Light);
 
         var minimized = e.Args.Contains("--minimized");
         var window = new MainWindow();

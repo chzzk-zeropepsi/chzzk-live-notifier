@@ -9,12 +9,12 @@
         <StackPanel Margin="16,8,16,16" MaxWidth="640">
 
             <TextBlock Text="감시" FontSize="15" FontWeight="SemiBold" Margin="4,0,0,8" />
-            <Border Background="#2B2D31" CornerRadius="8" Padding="16,12">
+            <Border Background="#FFFFFF" CornerRadius="8" Padding="16,12">
                 <Grid>
                     <StackPanel>
                         <TextBlock Text="새로고침 주기" FontSize="14" />
                         <TextBlock Text="방송 여부를 확인하는 간격 (10~600초)"
-                                   Foreground="#9AA0A6" FontSize="12" Margin="0,2,0,0" />
+                                   Foreground="#5C5E66" FontSize="12" Margin="0,2,0,0" />
                     </StackPanel>
                     <ui:NumberBox x:Name="PollBox" Width="140" HorizontalAlignment="Right"
                                   VerticalAlignment="Center"
@@ -24,24 +24,24 @@
             </Border>
 
             <TextBlock Text="알림" FontSize="15" FontWeight="SemiBold" Margin="4,16,0,8" />
-            <Border Background="#2B2D31" CornerRadius="8" Padding="16,12">
+            <Border Background="#FFFFFF" CornerRadius="8" Padding="16,12">
                 <StackPanel>
                     <Grid>
                         <StackPanel>
                             <TextBlock Text="팝업 유지 시간" FontSize="14" />
                             <TextBlock Text="알림 팝업이 화면에 떠 있는 시간 (2~60초)"
-                                       Foreground="#9AA0A6" FontSize="12" Margin="0,2,0,0" />
+                                       Foreground="#5C5E66" FontSize="12" Margin="0,2,0,0" />
                         </StackPanel>
                         <ui:NumberBox x:Name="DurBox" Width="140" HorizontalAlignment="Right"
                                       VerticalAlignment="Center"
                                       Minimum="2" Maximum="60" SmallChange="1"
                                       SpinButtonPlacementMode="Inline" LostFocus="Numbers_Changed" />
                     </Grid>
-                    <Separator Margin="0,12" Background="#2B2D31" />
+                    <Separator Margin="0,12" Background="#E3E5E8" />
                     <Grid>
                         <StackPanel>
                             <TextBlock Text="알림 소리" FontSize="14" />
-                            <TextBlock x:Name="SoundFileLabel" Foreground="#9AA0A6" FontSize="12"
+                            <TextBlock x:Name="SoundFileLabel" Foreground="#5C5E66" FontSize="12"
                                        Margin="0,2,0,0" Text="기본 알림음 (내장)" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
@@ -60,12 +60,12 @@
                                        ToolTip="미리듣기" Click="PreviewSoundButton_Click" />
                         </StackPanel>
                     </Grid>
-                    <Separator Margin="0,12" Background="#2B2D31" />
+                    <Separator Margin="0,12" Background="#E3E5E8" />
                     <Grid>
                         <StackPanel>
                             <TextBlock Text="시작할 때 이미 방송 중이면 알림" FontSize="14" />
                             <TextBlock Text="프로그램 시작 시 이미 방송 중인 채널도 알림을 띄움"
-                                       Foreground="#9AA0A6" FontSize="12" Margin="0,2,0,0" />
+                                       Foreground="#5C5E66" FontSize="12" Margin="0,2,0,0" />
                         </StackPanel>
                         <ui:ToggleSwitch x:Name="StartupNotifyToggle" HorizontalAlignment="Right"
                                          VerticalAlignment="Center" Click="StartupNotifyToggle_Click" />
@@ -74,12 +74,12 @@
             </Border>
 
             <TextBlock Text="시스템" FontSize="15" FontWeight="SemiBold" Margin="4,16,0,8" />
-            <Border Background="#2B2D31" CornerRadius="8" Padding="16,12">
+            <Border Background="#FFFFFF" CornerRadius="8" Padding="16,12">
                 <Grid>
                     <StackPanel>
                         <TextBlock Text="부팅 시 자동 실행" FontSize="14" />
                         <TextBlock Text="Windows 시작 시 트레이에서 조용히 실행"
-                                   Foreground="#9AA0A6" FontSize="12" Margin="0,2,0,0" />
+                                   Foreground="#5C5E66" FontSize="12" Margin="0,2,0,0" />
                     </StackPanel>
                     <ui:ToggleSwitch x:Name="AutostartToggle" HorizontalAlignment="Right"
                                      VerticalAlignment="Center" Click="AutostartToggle_Click" />
