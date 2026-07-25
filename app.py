@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""치지직 방송 알리미 — 팔로우한 스트리머가 방송을 켜면 Windows 알림을 보낸다."""
+"""방송 알리미 — 팔로우한 스트리머가 방송을 켜면 Windows 알림을 보낸다."""
 import json
 import queue
 import sys
@@ -13,7 +13,7 @@ from tkinter import filedialog, messagebox, ttk
 
 import chzzk_api
 
-APP_NAME = "치지직 방송 알리미"
+APP_NAME = "방송 알리미"
 if getattr(sys, "frozen", False):  # PyInstaller exe
     BASE_DIR = Path(sys.executable).resolve().parent  # config.json, icons/ 저장 위치
     RES_DIR = Path(sys._MEIPASS)                      # 번들된 logo 등 리소스

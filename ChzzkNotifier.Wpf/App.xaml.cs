@@ -5,7 +5,7 @@ namespace ChzzkNotifier;
 
 public partial class App : Application
 {
-    public const string AppTitle = "치지직 방송 알리미";
+    public const string AppTitle = "방송 알리미";
 
     private Mutex? _mutex;
 
