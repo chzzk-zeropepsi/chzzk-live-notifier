@@ -51,6 +51,72 @@ def save_config(cfg: dict) -> None:
     )
 
 
+# ---------------------------------------------------------------- 한글 IME 보정
+
+def attach_ime_fix(widget: tk.Widget) -> None:
+    """한글 조합 글자가 창 왼쪽 위에 겹쳐 그려지는 Windows IME 문제 보정.
+
+    Tk에서는 타이핑 중 네이티브 포커스(=IME 소유자)가 위젯이 아닌 최상위 창에
+    있으므로, 포커스된 창의 IME 조합 창 위치를 캐럿 위치로 강제 이동시킨다.
+    위젯이 포커스를 가진 동안 80ms 간격으로 계속 보정한다 (조합 중에는
+    KeyPress 이벤트가 오지 않을 수 있어 폴링 방식 사용).
+    """
+    import ctypes
+    from ctypes import wintypes
+
+    class COMPOSITIONFORM(ctypes.Structure):
+        _fields_ = [
+            ("dwStyle", wintypes.DWORD),
+            ("ptCurrentPos", wintypes.POINT),
+            ("rcArea", wintypes.RECT),
+        ]
+
+    CFS_FORCE_POSITION = 0x0020
+    imm32 = ctypes.windll.imm32
+    user32 = ctypes.windll.user32
+    state = {"running": False}
+
+    def reposition():
+        try:
+            hwnd = user32.GetFocus()  # IME를 소유한 실제 포커스 창
+            if not hwnd:
+                return
+            himc = imm32.ImmGetContext(hwnd)
+            if not himc:
+                return
+            try:
+                bbox = widget.bbox("insert")  # 위젯 내 캐럿 위치
+                x = widget.winfo_rootx() + (bbox[0] if bbox else 2)
+                y = widget.winfo_rooty() + (bbox[1] if bbox else 2)
+                pt = wintypes.POINT(x, y)
+                user32.ScreenToClient(hwnd, ctypes.byref(pt))
+                cf = COMPOSITIONFORM()
+                cf.dwStyle = CFS_FORCE_POSITION
+                cf.ptCurrentPos = pt
+                imm32.ImmSetCompositionWindow(himc, ctypes.byref(cf))
+            finally:
+                imm32.ImmReleaseContext(hwnd, himc)
+        except Exception:
+            pass
+
+    def loop():
+        if not state["running"]:
+            return
+        reposition()
+        widget.after(80, loop)
+
+    def start(_event=None):
+        if not state["running"]:
+            state["running"] = True
+            loop()
+
+    def stop(_event=None):
+        state["running"] = False
+
+    widget.bind("<FocusIn>", start, add="+")
+    widget.bind("<FocusOut>", stop, add="+")
+
+
 # ---------------------------------------------------------------- 시작 프로그램 등록
 
 RUN_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
@@ -58,13 +124,16 @@ RUN_NAME = "ChzzkLiveNotifier"
 
 
 def startup_command() -> str:
-    """부팅 시 실행할 명령. exe면 exe 자체, 스크립트면 pythonw + app.py."""
+    """부팅 시 실행할 명령. exe면 exe 자체, 스크립트면 pythonw + app.py.
+
+    --minimized: 창 없이 트레이로만 조용히 시작.
+    """
     if getattr(sys, "frozen", False):
-        return f'"{sys.executable}"'
+        return f'"{sys.executable}" --minimized'
     exe = Path(sys.executable)
     pyw = exe.with_name("pythonw.exe")
     runner = pyw if pyw.exists() else exe
-    return f'"{runner}" "{BASE_DIR / "app.py"}"'
+    return f'"{runner}" "{BASE_DIR / "app.py"}" --minimized'
 
 
 def is_startup_enabled() -> bool:
@@ -330,6 +399,8 @@ class App:
         self.root.after(300, self.drain_events)
         self.root.protocol("WM_DELETE_WINDOW", self.hide_to_tray)
         self.start_tray()
+        if "--minimized" in sys.argv and self.tray_icon:
+            self.root.withdraw()  # 부팅 자동 실행: 트레이로만 조용히 시작
 
     # -------- UI 구성
     def build_ui(self):
@@ -345,6 +416,7 @@ class App:
         entry = ttk.Entry(row, textvariable=self.search_var)
         entry.pack(side="left", fill="x", expand=True)
         entry.bind("<Return>", lambda e: self.do_search())
+        attach_ime_fix(entry)  # 한글 조합 글자 겹침 보정
         ttk.Button(row, text="검색", command=self.do_search).pack(side="left", padx=(6, 0))
 
         self.search_tree = ttk.Treeview(
