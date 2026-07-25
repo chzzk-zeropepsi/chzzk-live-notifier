@@ -1,0 +1,91 @@
+﻿<Page
+    x:Class="ChzzkNotifier.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="설정">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16,8,16,16" MaxWidth="640">
+
+            <TextBlock Text="감시" FontSize="15" FontWeight="SemiBold" Margin="4,0,0,8" />
+            <Border Background="#2B2D31" CornerRadius="8" Padding="16,12">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Text="새로고침 주기" FontSize="14" />
+                        <TextBlock Text="방송 여부를 확인하는 간격 (10~600초)"
+                                   Foreground="#9AA0A6" FontSize="12" Margin="0,2,0,0" />
+                    </StackPanel>
+                    <ui:NumberBox x:Name="PollBox" Width="140" HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  Minimum="10" Maximum="600" SmallChange="5"
+                                  SpinButtonPlacementMode="Inline" LostFocus="Numbers_Changed" />
+                </Grid>
+            </Border>
+
+            <TextBlock Text="알림" FontSize="15" FontWeight="SemiBold" Margin="4,16,0,8" />
+            <Border Background="#2B2D31" CornerRadius="8" Padding="16,12">
+                <StackPanel>
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="팝업 유지 시간" FontSize="14" />
+                            <TextBlock Text="알림 팝업이 화면에 떠 있는 시간 (2~60초)"
+                                       Foreground="#9AA0A6" FontSize="12" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <ui:NumberBox x:Name="DurBox" Width="140" HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Minimum="2" Maximum="60" SmallChange="1"
+                                      SpinButtonPlacementMode="Inline" LostFocus="Numbers_Changed" />
+                    </Grid>
+                    <Separator Margin="0,12" Background="#2B2D31" />
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="알림 소리" FontSize="14" />
+                            <TextBlock x:Name="SoundFileLabel" Foreground="#9AA0A6" FontSize="12"
+                                       Margin="0,2,0,0" Text="기본 알림음 (내장)" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <ComboBox x:Name="SoundCombo" Width="130" FontSize="13"
+                                      VerticalAlignment="Center"
+                                      SelectionChanged="SoundCombo_SelectionChanged">
+                                <ComboBoxItem Content="기본 알림음" />
+                                <ComboBoxItem Content="무음" />
+                                <ComboBoxItem Content="WAV 파일" />
+                            </ComboBox>
+                            <ui:Button Content="파일 선택…" Margin="8,0,0,0" FontSize="12"
+                                       Padding="10,5" VerticalAlignment="Center"
+                                       Click="PickSoundButton_Click" />
+                            <ui:Button Content="▶" Margin="8,0,0,0" FontSize="12"
+                                       Padding="10,5" VerticalAlignment="Center"
+                                       ToolTip="미리듣기" Click="PreviewSoundButton_Click" />
+                        </StackPanel>
+                    </Grid>
+                    <Separator Margin="0,12" Background="#2B2D31" />
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="시작할 때 이미 방송 중이면 알림" FontSize="14" />
+                            <TextBlock Text="프로그램 시작 시 이미 방송 중인 채널도 알림을 띄움"
+                                       Foreground="#9AA0A6" FontSize="12" Margin="0,2,0,0" />
+                        </StackPanel>
+                        <ui:ToggleSwitch x:Name="StartupNotifyToggle" HorizontalAlignment="Right"
+                                         VerticalAlignment="Center" Click="StartupNotifyToggle_Click" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="시스템" FontSize="15" FontWeight="SemiBold" Margin="4,16,0,8" />
+            <Border Background="#2B2D31" CornerRadius="8" Padding="16,12">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Text="부팅 시 자동 실행" FontSize="14" />
+                        <TextBlock Text="Windows 시작 시 트레이에서 조용히 실행"
+                                   Foreground="#9AA0A6" FontSize="12" Margin="0,2,0,0" />
+                    </StackPanel>
+                    <ui:ToggleSwitch x:Name="AutostartToggle" HorizontalAlignment="Right"
+                                     VerticalAlignment="Center" Click="AutostartToggle_Click" />
+                </Grid>
+            </Border>
+
+        </StackPanel>
+    </ScrollViewer>
+</Page>

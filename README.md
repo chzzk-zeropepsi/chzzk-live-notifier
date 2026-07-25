@@ -4,9 +4,25 @@
 
 ## 스크린샷
 
+**WPF 버전 (v2.x)** — 디스코드 스타일 다크 UI
+
+![WPF 메인 화면](screenshots/wpf-main.png)
+
+**파이썬/tkinter 버전 (v1.x)**
+
 | 메인 화면 | 알림 팝업 |
 |:---:|:---:|
 | ![메인 화면](screenshots/main.png) | ![알림 팝업](screenshots/popup.png) |
+
+## 버전 안내
+
+- **WPF 버전 (v2.x, 권장)** — `ChzzkNotifier.Wpf/` 폴더. .NET 10 + [WPF UI](https://github.com/lepoco/wpfui)
+  Fluent 다크 테마. 릴리즈의 exe는 .NET 설치 없이 단독 실행 가능.
+  한글 IME도 네이티브로 처리되어 검색창 글자 겹침 문제가 없음.
+- **파이썬/tkinter 버전 (v1.x)** — 저장소 루트. 아래 설치/실행 방법 참고.
+
+두 버전은 같은 `config.json` 스키마를 사용하며 (각자 실행 파일 옆에 저장),
+기능은 동일 (검색·팝업 알림·트레이·자동 시작·사운드 설정).
 
 ## 설치
 

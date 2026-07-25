@@ -1,0 +1,109 @@
+<ui:FluentWindow
+    x:Class="ChzzkNotifier.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="치지직 방송 알리미"
+    Width="640" Height="720" MinWidth="540" MinHeight="560"
+    ExtendsContentIntoTitleBar="True"
+    WindowBackdropType="None"
+    Background="#313338"
+    WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <!-- 디스코드 서버 레일 스타일 원형 버튼 -->
+        <Style x:Key="RailButton" TargetType="Button">
+            <Setter Property="Width" Value="46" />
+            <Setter Property="Height" Value="46" />
+            <Setter Property="Margin" Value="0,4" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Foreground" Value="#B5BAC1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg" Background="#313338" CornerRadius="23">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="#5865F2" />
+                                <Setter TargetName="Bg" Property="CornerRadius" Value="14" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="Tag" Value="selected">
+                                <Setter TargetName="Bg" Property="Background" Value="#5865F2" />
+                                <Setter TargetName="Bg" Property="CornerRadius" Value="14" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RailButtonGreen" TargetType="Button" BasedOn="{StaticResource RailButton}">
+            <Setter Property="Foreground" Value="#23A55A" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bg" Background="#313338" CornerRadius="23">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="#23A55A" />
+                                <Setter TargetName="Bg" Property="CornerRadius" Value="14" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Grid.Row="0" Title="치지직 방송 알리미" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="66" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 디스코드식 왼쪽 레일 -->
+            <Border Grid.Column="0" Background="#1E1F22">
+                <StackPanel Margin="0,10,0,0" HorizontalAlignment="Center">
+                    <Button x:Name="HomeBtn" Style="{StaticResource RailButton}"
+                            ToolTip="스트리머" Click="HomeBtn_Click">
+                        <ui:SymbolIcon Symbol="Home24" FontSize="20" />
+                    </Button>
+                    <Button x:Name="SettingsBtn" Style="{StaticResource RailButton}"
+                            ToolTip="설정" Click="SettingsBtn_Click">
+                        <ui:SymbolIcon Symbol="Settings24" FontSize="20" />
+                    </Button>
+                    <Border Height="2" Width="32" Background="#35373C" Margin="0,8" CornerRadius="1" />
+                    <Button Style="{StaticResource RailButtonGreen}"
+                            ToolTip="스트리머 추가" Click="AddBtn_Click">
+                        <ui:SymbolIcon Symbol="Add24" FontSize="20" />
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Frame x:Name="ContentFrame" NavigationUIVisibility="Hidden"
+                       Background="Transparent" Focusable="False" />
+                <TextBlock Grid.Row="1" Margin="16,4,16,10"
+                           Text="{Binding Status}" Foreground="#80848E" FontSize="12" />
+            </Grid>
+        </Grid>
+    </Grid>
+</ui:FluentWindow>
