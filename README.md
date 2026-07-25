@@ -1,5 +1,8 @@
 # 방송 알리미
 
+[![총 다운로드](https://img.shields.io/github/downloads/chzzk-zeropepsi/chzzk-live-notifier/total?label=%EC%B4%9D%20%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C&color=5865F2)](https://github.com/chzzk-zeropepsi/chzzk-live-notifier/releases)
+[![최신 릴리즈](https://img.shields.io/github/v/release/chzzk-zeropepsi/chzzk-live-notifier?label=%EC%B5%9C%EC%8B%A0%20%EB%A6%B4%EB%A6%AC%EC%A6%88&color=23A55A)](https://github.com/chzzk-zeropepsi/chzzk-live-notifier/releases/latest)
+
 팔로우한 스트리머가 방송을 켜면 알림을 보내주는 Windows 프로그램.
 
 ## 스크린샷
