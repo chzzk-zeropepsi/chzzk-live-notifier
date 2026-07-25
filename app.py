@@ -841,5 +841,24 @@ class App:
         self.root.mainloop()
 
 
+def already_running() -> bool:
+    """중복 실행 검사. 전역 뮤텍스가 이미 있으면 다른 인스턴스가 실행 중."""
+    import ctypes
+    ctypes.windll.kernel32.CreateMutexW(None, False, "ChzzkLiveNotifier_SingleInstance")
+    return ctypes.windll.kernel32.GetLastError() == 183  # ERROR_ALREADY_EXISTS
+
+
+def show_existing_window() -> None:
+    """이미 떠 있는 인스턴스의 창을 앞으로 가져온다 (트레이에 숨어 있어도 표시)."""
+    import ctypes
+    hwnd = ctypes.windll.user32.FindWindowW(None, APP_NAME)
+    if hwnd:
+        ctypes.windll.user32.ShowWindow(hwnd, 9)  # SW_RESTORE
+        ctypes.windll.user32.SetForegroundWindow(hwnd)
+
+
 if __name__ == "__main__":
+    if already_running():
+        show_existing_window()  # 새로 띄우는 대신 기존 창 열기
+        sys.exit(0)
     App().run()
