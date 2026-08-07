@@ -7,15 +7,7 @@
 
 ## 스크린샷
 
-**WPF 버전 (v2.x)** — 디스코드 스타일 다크 UI
-
-![WPF 메인 화면](screenshots/wpf-main.png)
-
-**파이썬/tkinter 버전 (v1.x)**
-
-| 메인 화면 | 알림 팝업 |
-|:---:|:---:|
-| ![메인 화면](screenshots/main.png) | ![알림 팝업](screenshots/popup.png) |
+![메인 화면](screenshots/wpf-main.png)
 
 ## 버전 안내
 
